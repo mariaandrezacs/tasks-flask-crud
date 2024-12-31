@@ -42,7 +42,8 @@ def update_task(id):
     for t in tasks: 
         if t.id == id:
             task = t
-    print(task)
+            break
+
     if task == None:
         return jsonify({"message": "Não foi possivel encontrar a atividade"}), 404
     
@@ -50,7 +51,7 @@ def update_task(id):
     task.title = data['title']
     task.description = data['description']
     task.completed = data['completed']
-    print(task)
+
     return jsonify({"message": "Tarefa atualizada com sucesso."})
 
 # Rota de estudos
@@ -59,6 +60,21 @@ def show_user(user_id):
     print(user_id)
     print(type(user_id))
     return "%s" % user_id
+
+@app.route('/tasks/<int:id>', methods=['DELETE'])
+def delete_task(id):
+    task = None
+    for t in tasks: 
+        if t.id == id:
+            task = t
+            break
+
+    if task == None:
+        return jsonify({"message": "Não foi possivel encontrar a atividade"}), 404
+    
+    tasks.remove(task)
+    return jsonify({"message": "Tarefa deletada com sucesso."})
+
 
 
 
